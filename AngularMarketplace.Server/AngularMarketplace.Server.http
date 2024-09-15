@@ -1,0 +1,6 @@
+@AngularMarketplace.Server_HostAddress = http://localhost:5216
+
+GET {{AngularMarketplace.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
