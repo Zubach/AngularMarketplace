@@ -1,0 +1,8 @@
+<div>
+    <ul>
+        @for(category of categories; track category.mask){
+
+            <li ><a [routerLink]="['/',category.url_title,category.mask]">{{category.title}}</a></li>
+        }
+    </ul>
+</div>

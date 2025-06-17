@@ -1,11 +1,13 @@
 <div class="productItem">
-
-    <img [src]="product.img1" alt="error">
+    <a [routerLink]="['/',product.urlTitle,product.mask]">
+    <img [src]="product.img1" >
     <div class="productItem-content">
-        <span>{{product.title}}</span>
-        <div>
+        <span class="productItem-title">{{product.title}}</span>
+        <div class="productItem-price">
             <span>{{product.price}} $</span>
+            <button class="btn btn-success"><i class="bi bi-basket"></i> Buy</button>
         </div>
         <span>{{product.description}}</span>
     </div>
+    </a>
 </div>

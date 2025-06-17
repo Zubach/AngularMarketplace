@@ -15,4 +15,10 @@ export class ProductService {
   getProducts(){
     return this.http.get<Product[]>(this.baseUrl + '/get_products');
   }
+  getProduct(id:number){
+    return this.http.get<Product>(this.baseUrl + '/get_product_details/'+ id.toString());
+  }
+  getProductsByCategory(id:number){
+    return this.http.get<Product[]>(this.baseUrl + '/get_products_by_category/' + id.toString());
+  }
 }

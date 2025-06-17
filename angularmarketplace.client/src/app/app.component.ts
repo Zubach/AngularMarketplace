@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 interface WeatherForecast {
   date: string;
@@ -13,13 +15,13 @@ interface WeatherForecast {
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
+  constructor(private modalService: NgbModal) {
   }
 
-
+  public open(modal: any): void {
+    this.modalService.open(modal);
+  }
   title = 'angularmarketplace.client';
 }

@@ -19,6 +19,11 @@ namespace DataAccess.Entities
         [Column("description",TypeName = "nvarchar(300)"),MaxLength(300)]
         public string? Description { get; set; }
 
+        [Column("url_title", TypeName = "nvarchar(50)"), MaxLength(50)]
+        public string Url_Title { get; set; }
+        [Column("mask", TypeName = "nvarchar(9)"), MaxLength(9)]
+        public string Mask { get; set; }
+
         [Column("price")]
         public float Price { get; set; }
         [Column(TypeName="nvarchar(30)")]
@@ -33,5 +38,10 @@ namespace DataAccess.Entities
         public string? img5 { get; set; }
         [Column(TypeName = "nvarchar(30)")]
         public string? img6 { get; set; }
+
+
+
+        public int? CategoryID { get; set; }
+        public ProductCategory Category { get; set; }
     }
 }

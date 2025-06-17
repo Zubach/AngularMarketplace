@@ -1,0 +1,31 @@
+.header{
+    overflow: hidden;
+    background-color: var(--global-color-black);
+    color: var(--global-color-white);
+    display: grid;
+    grid-template-columns: 10% auto auto auto;
+}
+.header-btn{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin:0px;
+    padding: 0px;
+    background: none;
+    border: none;
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+}
+.header-logo{
+    display:flex;
+}
+.header-logo,a > img{
+    width: 400px;
+    height: 150px;
+}
+app-mobile-user-menu{
+   justify-self: center;
+    align-content: center;
+}
