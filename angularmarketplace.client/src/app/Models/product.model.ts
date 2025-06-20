@@ -2,7 +2,7 @@ export interface Product{
     id:number;
     title:string;
     description:string;
-    urlTitle:string;
+    url_Title:string;
     mask:string;
     price:number;
     img1:string;

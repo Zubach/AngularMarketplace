@@ -8,9 +8,7 @@ import { environment } from '../../environments/environment.development';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  cdnProvider:string;
   constructor(private http:HttpClient){
-    this.cdnProvider = environment.apiUrl.concat("/cdn");
   }
   
 }

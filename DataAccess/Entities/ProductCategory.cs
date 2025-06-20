@@ -22,13 +22,16 @@ namespace DataAccess.Entities
         [Column("mask", TypeName = "nvarchar(9)"), MaxLength(9)]
         public string Mask { get; set; }
 
+        [Column(TypeName = "nvarchar(30)")]
+        public string? img { get; set; }
 
         public bool IsSubCategory { get; set; }
         
         
 
-        public ICollection<Product> ProductsList { get; set; }
-
+        public ICollection<Product>? ProductsList { get; set; }
+        public ICollection<ProductCategory>? SubCategoriesList { get; set; }
+        
         public int? ParentID { get; set; }
         public ProductCategory? Parent { get; set; }
 

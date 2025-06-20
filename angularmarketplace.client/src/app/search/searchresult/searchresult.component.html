@@ -1,12 +1,18 @@
-<!-- <div class="searchResult containter" >
-    <div *ngIf="isProductDetails; then thenBlock"></div>
-    <app-product-list [products]="productslist" #productList></app-product-list>
-    <app-product-detail [product]="productslist[0]" #productDetails></app-product-detail>
-</div> -->
-
-@if(this.isProductDetails){
-    <app-product-detail [product]="productslist[0]" ></app-product-detail>
+<!-- 
+@if(this.mode == "product_details"){
+    <app-product-detail [product]="productsList[0]" ></app-product-detail>
 }
-@else {
-    <app-product-list [products]="productslist" ></app-product-list>
+@else if(this.mode == "product_list") {
+    <app-product-list [products]="productsList" ></app-product-list>
+} -->
+@switch (this.mode) {
+    @case("product_details"){
+        <app-product-detail [product]="productsList[0]" ></app-product-detail>
+    }
+    @case("product_list"){
+        <app-product-list [products]="productsList" ></app-product-list>
+    }
+    @case("category_page"){
+        <app-categorypage [categoriesList]="categoriesList"></app-categorypage>
+    }
 }

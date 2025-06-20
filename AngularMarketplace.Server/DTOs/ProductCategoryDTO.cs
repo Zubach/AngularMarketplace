@@ -9,5 +9,7 @@
         public string Url_Title { get; set; }
 
         public string Mask { get; set; }
+        public string Img { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Product } from '../../Models/product.model';
 import { ProductService } from '../../services/product.service';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-product-item',
@@ -10,7 +11,10 @@ import { ProductService } from '../../services/product.service';
 export class ProductItemComponent implements OnInit {
   @Input()
   product!: Product;
-  constructor(){}
+  cdnProvider:string;
+  constructor(){
+    this.cdnProvider = environment.cdnUrl;
+  }
   ngOnInit(){
     
   }

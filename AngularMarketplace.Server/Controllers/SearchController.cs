@@ -28,13 +28,30 @@ namespace AngularMarketplace.Server.Controllers
                 {
                     if (mask[0] == 'c')
                     {
-                        ICollection<Product> products = _context.ProductCategories.Where(x => x.Mask == mask && x.Url_Title == url_title).Include(c => c.ProductsList).Single().ProductsList;
-                        if (products != null) {
-                            IEnumerable<ProductDTO> result = products.Select(p =>
+                        ProductCategory category = _context.ProductCategories.Where(x => x.Mask == mask && x.Url_Title == url_title).Include(c => c.ProductsList).Include(c=> c.SubCategoriesList).Single();
+                        if (category != null)
+                        {
+                            if(category.SubCategoriesList?.Count > 0)
+                            {
+                                IEnumerable<ProductCategoryDTO> categoryDTOs = category.SubCategoriesList.Select(c => ToProductCategoryDTO(c));
+                                return new JsonResult(new
+                                {
+                                    Type = "CategoriesList",
+                                    Data = categoryDTOs
+                                });
+                            }
+                            
+                            if (category.ProductsList != null)
+                            {
+                                IEnumerable<ProductDTO> productDTOs = category.ProductsList.Select(p =>
 
-                                ToProductDTO(p)
-                            );
-                            return new JsonResult(result);
+                                    ToProductDTO(p)
+                                );
+                                return new JsonResult(new { 
+                                    Type = "ProductsList",
+                                    Data = productDTOs
+                                });
+                            }
                         }
                     }
                     else if (mask[0] == 'p')
@@ -45,7 +62,11 @@ namespace AngularMarketplace.Server.Controllers
 
                                 ToProductDTO(p)
                                 );
-                            return new JsonResult(result);
+                            return new JsonResult(new
+                            {
+                                Type = "ProductDetails",
+                                Data = result
+                            });
                         }
                        
                     }
@@ -72,7 +93,18 @@ namespace AngularMarketplace.Server.Controllers
                 img2 = product.img2,
                 Price = product.Price,
                 Mask = product.Mask,
-                UrlTitle = product.Url_Title
+                Url_Title = product.Url_Title
+            };
+        }
+        private ProductCategoryDTO ToProductCategoryDTO(ProductCategory productCategory)
+        {
+            return new ProductCategoryDTO()
+            {
+                IsSubCategory = productCategory.IsSubCategory,
+                Mask = productCategory.Mask,
+                Title = productCategory.Title,
+                Url_Title = productCategory.Url_Title,
+                Img = productCategory.img
             };
         }
     }

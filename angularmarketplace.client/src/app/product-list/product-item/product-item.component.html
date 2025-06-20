@@ -1,6 +1,8 @@
 <div class="productItem">
-    <a [routerLink]="['/',product.urlTitle,product.mask]">
-    <img [src]="product.img1" >
+    <a [routerLink]="['/',product.url_Title,product.mask]">
+    <div class="img-container">
+        <img ngSrc="{{product.img1}}" width="200" height="148">
+    </div>
     <div class="productItem-content">
         <span class="productItem-title">{{product.title}}</span>
         <div class="productItem-price">

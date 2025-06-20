@@ -21,7 +21,7 @@ namespace AngularMarketplace.Server.Controllers
         {
             try
             {
-                ICollection<ProductCategory> productCategories = _context.ProductCategories.Where(x => x.IsSubCategory == false).ToList();
+                ICollection<ProductCategory> productCategories = _context.ProductCategories.Where(x => x.IsSubCategory == false).Include(e=>e.SubCategoriesList).ToList();
                 if (productCategories?.Count > 0) {
                     IEnumerable<ProductCategoryDTO> categoryDTOs = productCategories.Select(c => ToProductCategoryDTO(c));
                     return new JsonResult(categoryDTOs);
@@ -33,7 +33,23 @@ namespace AngularMarketplace.Server.Controllers
                 // to log
                 
             }
-            return new JsonResult("OK");
+            return new JsonResult("Error");
+        }
+        [HttpGet("get_subcategories/{id}")]
+        public JsonResult GetSubCategories(int id)
+        {
+            try
+            {
+                ICollection<ProductCategory> productCategories = _context.ProductCategories.Where(x => x.ParentID == id).Include(x => x.SubCategoriesList).ToList();
+                if(productCategories?.Count > 0){
+                    IEnumerable<ProductCategoryDTO> categoryDTOs = productCategories.Select(c => ToProductCategoryDTO(c));
+                    return new JsonResult(categoryDTOs);
+                }
+            }
+            catch (Exception ex) {
+                //to log
+            }
+            return new JsonResult("Error");
         }
 
         private ProductCategoryDTO ToProductCategoryDTO(ProductCategory productCategory)
@@ -43,7 +59,8 @@ namespace AngularMarketplace.Server.Controllers
                 IsSubCategory = productCategory.IsSubCategory,
                 Mask = productCategory.Mask,
                 Title = productCategory.Title,
-                Url_Title = productCategory.Url_Title
+                Url_Title = productCategory.Url_Title,
+                Img = productCategory.img
             };
         }
     }

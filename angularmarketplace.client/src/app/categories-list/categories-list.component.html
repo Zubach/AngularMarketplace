@@ -1,8 +1,8 @@
-<div>
+<div class="categories-list">
     <ul>
         @for(category of categories; track category.mask){
 
-            <li ><a [routerLink]="['/',category.url_title,category.mask]">{{category.title}}</a></li>
+            <li ><a class="category-link" [routerLink]="['/',category.url_Title,category.mask]">{{category.title}}</a></li>
         }
     </ul>
 </div>

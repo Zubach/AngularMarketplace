@@ -3,6 +3,7 @@ import { Product } from '../../Models/product.model';
 import { ProductService } from '../../services/product.service';
 import { SearchService } from '../../services/search.service';
 import { ActivatedRoute } from '@angular/router';
+import { Category } from '../../Models/category.model';
 
 @Component({
   selector: 'app-searchresult',
@@ -13,8 +14,9 @@ export class SearchresultComponent implements OnInit {
 
   url_title:string;
   mask:string;
-  productslist!:Product[];
-  isProductDetails:boolean = false;
+  productsList!:Product[];
+  categoriesList!:Category[];
+  mode: string ='';
 
 
 constructor(private productService:ProductService,private searchService:SearchService, activeRoute:ActivatedRoute){
@@ -24,16 +26,24 @@ constructor(private productService:ProductService,private searchService:SearchSe
 }
   ngOnInit(): void {
     if(this.url_title && this.mask)
-        this.searchService.searchByMaskAndUrlTitle(this.url_title,this.mask).subscribe((data:Product[])=>this.productslist = data);
-    if(this.mask[0] == 'p'){
-      this.isProductDetails = true;
-    }
-    else if (this.mask[0] == 'c'){
-      this.isProductDetails = false;
-    }
-    else {
-      // product dont found
-    }
+        this.searchService.searchByMaskAndUrlTitle(this.url_title,this.mask).subscribe((response)=>{
+          switch(response.type){
+              case "CategoriesList":
+                this.mode = "category_page";
+                this.categoriesList = response.data;
+                break;
+              case "ProductsList":
+                this.mode = "products_list";
+                this.productsList = response.data;
+                break; 
+              case "ProductDetails":
+                this.mode = "product_details";
+                this.productsList = response.data;
+                break;
+          }
+          
+        });
+   
   }
 
  

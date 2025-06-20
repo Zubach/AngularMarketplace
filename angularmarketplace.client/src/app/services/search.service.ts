@@ -11,6 +11,6 @@ export class SearchService {
   constructor(private http:HttpClient) { }
   baseUrl = environment.apiUrl+ '/api/search' ;
   searchByMaskAndUrlTitle(url_title:string,mask:string){
-    return this.http.get<Product[]>(this.baseUrl + '/searchby_urltitle_mask/' + url_title + ';' + mask);
+    return this.http.get<any>(this.baseUrl + '/searchby_urltitle_mask/' + url_title + ';' + mask);
   }
 }

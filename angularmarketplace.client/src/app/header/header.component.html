@@ -1,7 +1,7 @@
 <div class="app-header">
     <header class="header">
         <app-mobile-user-menu></app-mobile-user-menu>
-        <a href="#" class="header-logo"><img src="{{cdnProvider}}/logos/logo.svg" alt="Logo missing"></a>
+        <a href="#" class="header-logo"><img ngSrc="logo.svg" alt="Logo missing" [loaderParams]="{loadLogo:true}" width="400" height="150" priority></a>
         <div class="header-searchbar">
             <app-searchbar></app-searchbar>
         </div>

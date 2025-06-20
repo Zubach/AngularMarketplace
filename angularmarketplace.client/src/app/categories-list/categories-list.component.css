@@ -1,0 +1,16 @@
+.categories-list > ul{
+    list-style-type: none;
+    
+}
+.categories-list > ul > li > a{
+    color: var(--global-color-black);
+    text-decoration: none;
+    font-size: 14pt;
+}
+.categories-list > ul > li:hover{
+    background-color: grey;
+}
+.category-link{
+    position: relative;
+    display: flex;
+}

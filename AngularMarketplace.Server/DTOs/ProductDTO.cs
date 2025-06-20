@@ -8,7 +8,7 @@ namespace AngularMarketplace.Server.DTOs
         public string Title { get; set; }
         
         public string Description { get; set; }
-        public string UrlTitle { get; set; }
+        public string Url_Title { get; set; }
         public string Mask { get; set; }
 
         public string img1 { get; set; }
