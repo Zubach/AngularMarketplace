@@ -21,10 +21,10 @@
 .header-logo{
     display:flex;
 }
-/* .header-logo,a > img{
+ .header-logo,a > img{
     width: 400px;
     height: 150px;
-} */
+} 
 app-mobile-user-menu{
    justify-self: center;
     align-content: center;

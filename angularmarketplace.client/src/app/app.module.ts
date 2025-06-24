@@ -18,6 +18,7 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { CategorypageComponent } from './categorypage/categorypage.component';
 import { environment } from '../environments/environment.development';
+import {ImageLoaderDirective} from './Directives/image-loader.directive'
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { environment } from '../environments/environment.development';
     CategoriesListComponent,
     MainpageComponent,
     CategorypageComponent,
+    ImageLoaderDirective,
   ],
   imports: [
     BrowserModule, HttpClientModule,

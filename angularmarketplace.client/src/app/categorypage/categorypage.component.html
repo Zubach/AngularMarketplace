@@ -2,7 +2,7 @@
     @for(category of categoriesList; track category.mask){
         <div nz-col nzSpan="6">
             <a [routerLink]="['/',category.url_Title,category.mask]">
-                <img ngSrc="{{category.img}}" width="200" height="148" alt="test" [loaderParams]="{loadCategory: true}">
+                <img [src]="category.img"  alt="test" appImageLoader load_from="categories">
                 <span class="category-title">{{category.title}}</span>
                 <!-- @if(category.SubCategoriesList.length > 0){
                     @for(s of category.SubCategoriesList; track s.mask){
