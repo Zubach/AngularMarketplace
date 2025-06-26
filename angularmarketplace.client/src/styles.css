@@ -1,4 +1,14 @@
 :root{
     --global-color-black: #2b2a2a;
-    --global-color-white: #f5f5f5
+    --global-color-white: #f5f5f5;
+    --global-color-red: #ff3838;
+}
+
+.error-feedback{
+    color: var(--global-color-red);
+    text-align: left;
+    font-weight: bold;
+}
+input.ng-invalid:not(.ng-untouched){
+    border-color:var(--global-color-red);
 }

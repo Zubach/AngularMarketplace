@@ -7,13 +7,27 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
+          "skipTests": true,
           "standalone": false
         },
         "@schematics/angular:directive": {
+          "skipTests": true,
           "standalone": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "skipTests": true
+        },
+       
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
         }
       },
       "root": "",
