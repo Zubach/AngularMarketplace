@@ -1,4 +1,4 @@
-<p>registration works!</p>
+
 <div>
     <form [formGroup]="form"  (ngSubmit) = "onSubmit()">
         <div class="mb-3">
@@ -35,6 +35,9 @@
                         }
                         @case('minlength'){
                             <div>Password must be at least 6 characters long</div>
+                        }
+                        @case('patternError'){
+                            <div>Password mast have at least one digit and one uppercase</div>
                         }
                     }
                 </div>

@@ -19,8 +19,6 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { CategorypageComponent } from './categorypage/categorypage.component';
 import { environment } from '../environments/environment.development';
 import {ImageLoaderDirective} from './Directives/image-loader.directive';
-import { LoginComponent } from './user/login/login.component';
-import { RegistrationComponent } from "./user/registration/registration.component";
 
 
 @NgModule({
@@ -36,15 +34,13 @@ import { RegistrationComponent } from "./user/registration/registration.componen
     CategoriesListComponent,
     MainpageComponent,
     CategorypageComponent,
-    ImageLoaderDirective,
-    LoginComponent
+    ImageLoaderDirective
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
     NgbModule,
     NgOptimizedImage,
-    RegistrationComponent
 ],
   providers: [
     {    

@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using AngularMarketplace.Server.DTOs.User;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,32 @@ namespace AngularMarketplace.Server.Controllers
             this._signInManager = signInManager;
         }
 
-        
+        [HttpPost("register")]
+        public async Task<JsonResult> Register([FromBody] UserRegistrationDTO userDTO)
+        {
+            if (userDTO != null)
+            {
+                try
+                {
+                    User _user = new User()
+                    {
+                        UserName = userDTO.FullName,
+                        Email = userDTO.Email
+                    };
+                    var response = await _userManager.CreateAsync(_user, userDTO.Password);
+                    if (response.Succeeded)
+                    {
+                        return new JsonResult(Results.Ok(response));
+                    }
+                    return new JsonResult(Results.BadRequest(response));
 
+                }
+                catch (Exception ex) {
+                    // to log
+                }
+            }
+            return new JsonResult(Results.BadRequest(ModelState));
+        }
     }
 }
+

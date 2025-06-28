@@ -1,1 +1,32 @@
-<p>login works!</p>
+<div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+         <div class="mb-3">
+            <input class="form-control" placeholder="Email" formControlName="email">
+            @if( hasDisplayableError('email') ){
+                <div class="error-feedback" >
+                    @if(form.controls['email'].hasError('email')){
+                        <div>Your email is invalid</div>
+                    }
+                    @if(form.controls['email'].hasError('required')){
+                        <div>
+                            Please enter your email
+                        </div>
+                    }
+                    
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            @if(hasDisplayableError('password') && form.controls['password'].hasError('required')){
+                <div class="error-feedback">
+                    Please enter your password
+                </div>
+
+            }
+        </div>
+        <div>
+            <button class="btn">Login</button>
+        </div>
+    </form>
+</div>

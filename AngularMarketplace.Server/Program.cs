@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Identity
 builder.Services
-    .AddIdentityApiEndpoints<IdentityUser>()
+    .AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 
@@ -16,7 +16,7 @@ builder.Services.Configure<IdentityOptions>(option =>
 {
     option.User.RequireUniqueEmail = true;
     option.Password.RequireNonAlphanumeric = false;
-
+    
 });
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options=>
