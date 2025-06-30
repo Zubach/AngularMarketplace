@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'registration',component:RegistrationComponent, pathMatch:'full'},
   {path: 'login',component:LoginComponent,pathMatch:'full'},
   {path: 'product/:id',component: ProductDetailComponent},
- // {path: ':url_title/:mask', component: SearchresultComponent},
+  {path: ':url_title/:mask', component: SearchresultComponent},
   {path: '**',redirectTo: '/'}
 
 ];

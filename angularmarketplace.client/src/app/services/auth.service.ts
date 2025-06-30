@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TOKEN_KEY } from '../constants';
-import { UserRegistration } from '../Models/user-registration.model';
+import { UserRegistration } from '../Models/User/user-registration.model';
 import { environment } from '../../environments/environment.development';
+import { UserLogin } from '../Models/User/user-login';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,8 @@ export class AuthService {
   }
   register(user:UserRegistration){
     return this.http.post<UserRegistration>(this.baseUrl + '/register',user);
+  }
+  login(user:UserLogin){
+    return this.http.post<UserLogin>(this.baseUrl + '/login',user);
   }
 }

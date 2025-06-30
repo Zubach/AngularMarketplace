@@ -1,4 +1,8 @@
+<ng-template #registrationFailed>
+    <div [innerHTML]="errorMsg">
 
+    </div>
+</ng-template>
 <div>
     <form [formGroup]="form"  (ngSubmit) = "onSubmit()">
         <div class="mb-3">
@@ -55,3 +59,4 @@
         <button type="submit" class="btn btn-success">Register</button>
     </form>
 </div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

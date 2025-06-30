@@ -1,27 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { FirtsKeyPipe } from '../../pipes/firts-key.pipe';
 import { AuthService } from '../../services/auth.service';
-import { UserRegistration } from '../../Models/user-registration.model';
+import { UserRegistration } from '../../Models/User/user-registration.model';
+import { ToastContainer } from "../../toast-container/toast-container.component";
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [ReactiveFormsModule,FirtsKeyPipe],
+  imports: [ReactiveFormsModule, FirtsKeyPipe, ToastContainer],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnDestroy {
   form: FormGroup;
   isSubmitted:Boolean = false;
-  constructor(public formBuilder:FormBuilder,private authService:AuthService){
+  @ViewChild("registrationFailed") regFailedEl!: TemplateRef<any>;
+  errorMsg:string = '';
+  constructor(public formBuilder:FormBuilder,private authService:AuthService,private toastService:ToastService){
     this.form = this.formBuilder.group({
         fullName: ['',Validators.required],
         email: ['',[Validators.required,Validators.email]],
-        password: ['',[Validators.required,Validators.minLength(6),this.passwordPattern]],//Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])')]],  i dont know why its not working
+        password: ['',[Validators.required,Validators.minLength(6),this.passwordPattern]],
         confirmPassword: ['']
       },{validators:this.passwordsMatchValidator});
    
+  }
+  ngOnDestroy(): void {
+    this.toastService.clear();
   }
   passwordsMatchValidator: ValidatorFn = (control: AbstractControl): null =>{
     const password = control.get('password');
@@ -56,8 +63,27 @@ export class RegistrationComponent {
       };
 
       this.authService.register(usr).subscribe(
-        (response)=>{
-          console.log(response);
+        {
+          next:response=>{
+            console.log(response);
+          },
+          error: err=>{
+            this.errorMsg = '';
+            console.log(err);
+            if(err.custom_message == null){
+              err.error.errors.forEach((e:any) => {
+                this.errorMsg += e.description + '</br>'
+              });
+            }
+            else{
+              this.errorMsg = err.custom_message;
+            }
+            this.toastService.show({
+              template: this.regFailedEl,
+              classname: 'bg-danger text-light',
+              delay: 5000
+            });
+          }
         }
       );
     }

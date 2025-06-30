@@ -1,3 +1,7 @@
+
+<ng-template #loginFailed>
+    Username or password is incorrect.
+</ng-template>
 <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
          <div class="mb-3">
@@ -30,3 +34,4 @@
         </div>
     </form>
 </div>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,24 +1,27 @@
 using AngularMarketplace.Server;
+using AngularMarketplace.Server.Extensions;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Identity
+// Access to appsettings.json from Controllers
+
+builder.Services.AddSingleton(builder.Configuration);
+
+// Identity extension method
 builder.Services
-    .AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddIdentityHandlersAndStored()
+    .ConfigureIdentityOptions()
+    .AddIdentityAuth(builder.Configuration);
 
 
-builder.Services.Configure<IdentityOptions>(option =>
-{
-    option.User.RequireUniqueEmail = true;
-    option.Password.RequireNonAlphanumeric = false;
-    
-});
-// Add services to the container.
+// Db Context
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlite(builder.Configuration.GetConnectionString("mydb"))
 );
@@ -38,9 +41,9 @@ app.UseStaticFiles();
 
 // CORS
 
-app.UseCors(x=> x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
-
-
+app
+    .ConfigureCORS()
+    .AddIdentityAuthMiddlwares();
 
 // Configure the HTTP request pipeline.
 
@@ -53,7 +56,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/cdn"
 });
 
-app.UseAuthorization();
+
 
 app.MapControllers();
 
