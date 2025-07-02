@@ -9,5 +9,6 @@ namespace DataAccess.Entities
 {
     public class User : IdentityUser
     {
+        public ICollection<Wishlist> Wishlists { get; set; }
     }
 }

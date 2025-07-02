@@ -1,5 +1,6 @@
 ﻿using AngularMarketplace.Server.DTOs;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Localization;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AngularMarketplace.Server.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class SearchController : ControllerBase

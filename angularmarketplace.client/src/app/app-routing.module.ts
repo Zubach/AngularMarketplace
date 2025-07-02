@@ -6,10 +6,12 @@ import { SearchresultComponent } from './search/searchresult/searchresult.compon
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { LoginComponent } from './user/login/login.component';
+import { WishlistComponent } from './user/cabinet/wishlist/wishlist.component';
 
 const routes: Routes = [
-  {path: '', component: MainpageComponent},
+  {path: '', component: MainpageComponent, pathMatch:'full'},
   {path: 'registration',component:RegistrationComponent, pathMatch:'full'},
+  {path: 'wishlist', component:WishlistComponent, pathMatch:'full'},
   {path: 'login',component:LoginComponent,pathMatch:'full'},
   {path: 'product/:id',component: ProductDetailComponent},
   {path: ':url_title/:mask', component: SearchresultComponent},

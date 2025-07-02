@@ -1,5 +1,6 @@
 ﻿using AngularMarketplace.Server.DTOs.User;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace AngularMarketplace.Server.Controllers
             this._configuration = configuration;
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IResult> Register([FromBody] UserRegistrationDTO userDTO)
         {
@@ -53,6 +55,8 @@ namespace AngularMarketplace.Server.Controllers
             }
             return Results.BadRequest(new { custom_message = "Data is invalid." });
         }
+
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IResult> Login([FromBody] UserLoginDTO userLoginDTO)
         {

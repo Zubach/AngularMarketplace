@@ -1,4 +1,6 @@
-﻿namespace AngularMarketplace.Server.Extensions
+﻿using Microsoft.Net.Http.Headers;
+
+namespace AngularMarketplace.Server.Extensions
 {
     public static class AppConfigExtensions
     {

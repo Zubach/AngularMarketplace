@@ -9,6 +9,7 @@ namespace AngularMarketplace.Server
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions):base(dbContextOptions)
         {

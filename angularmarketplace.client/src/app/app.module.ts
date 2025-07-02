@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IMAGE_CONFIG, IMAGE_LOADER, ImageLoaderConfig, NgOptimizedImage } from '@angular/common';
@@ -19,6 +19,8 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { CategorypageComponent } from './categorypage/categorypage.component';
 import { environment } from '../environments/environment.development';
 import {ImageLoaderDirective} from './Directives/image-loader.directive';
+import { WishlistComponent } from './user/cabinet/wishlist/wishlist.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import {ImageLoaderDirective} from './Directives/image-loader.directive';
     CategoriesListComponent,
     MainpageComponent,
     CategorypageComponent,
-    ImageLoaderDirective
+    ImageLoaderDirective,
+    WishlistComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
@@ -42,30 +45,11 @@ import {ImageLoaderDirective} from './Directives/image-loader.directive';
     NgbModule,
     NgOptimizedImage,
 ],
-  providers: [
-    {    
-      provide: IMAGE_LOADER,
-      useValue: (config: ImageLoaderConfig)=>{
-        let url = environment.cdnUrl;
-        let queryParams = [];  
-        if (config.loaderParams?.['loadLogo']) {    
-          queryParams.push('/logos/');  
-        }  
-        else if( config.loaderParams?.['loadCategory']){
-          queryParams.push('/categories/')
-        }
-        else{
-          queryParams.push('/products/')
-        }
-        return url + queryParams.join('/') + config.src; 
-      } 
-     },
-     {    
-      provide: IMAGE_CONFIG,
-      useValue: {
-        breakpoints: [16, 48, 96, 128, 384, 640, 750, 828, 1080, 1200, 1920]    
-      }  
-    },
+  providers: [{
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi:true
+  }
   ],
   bootstrap: [AppComponent]
 })

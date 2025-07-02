@@ -2,10 +2,12 @@ using AngularMarketplace.Server;
 using AngularMarketplace.Server.Extensions;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,7 +60,8 @@ app.UseStaticFiles(new StaticFileOptions
 
 
 
-app.MapControllers();
+app.MapControllers()
+    .RequireAuthorization();
 
 
 app.MapFallbackToFile("/index.html");
