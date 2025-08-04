@@ -1,5 +1,6 @@
 ﻿using AngularMarketplace.Server.DTOs.User;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace AngularMarketplace.Server.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<User> _userManager;
-        public WishlistController(AppDbContext context, UserManager<User> userManager)
+        private readonly ILogger<WishlistController> _logger;
+        public WishlistController(AppDbContext context, UserManager<User> userManager,ILogger<WishlistController> logger)
         {
             this._context = context;
             this._userManager = userManager;
+            this._logger = logger;
         }
 
         [HttpPost]
@@ -37,6 +40,7 @@ namespace AngularMarketplace.Server.Controllers
                     return Results.Created();
                 }
                 catch (Exception ex) {
+                    _logger.LogError(ex, ex.Message);
                     return Results.StatusCode(503);
                 }
 
@@ -44,6 +48,7 @@ namespace AngularMarketplace.Server.Controllers
             return Results.BadRequest("Unknown user.");
         }
 
+        [Authorize(Roles = "Buyer")]
         [HttpGet("get_user_wishlists")]
         public async Task<IResult> GetUserWishlists()
         {
@@ -62,25 +67,10 @@ namespace AngularMarketplace.Server.Controllers
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError(ex, ex.Message);
                     return Results.StatusCode(503);
                 }
             }
-            //string userId = claims.Claims.First(x => x.Type == "UserID").Value;
-            //var user = await _userManager.FindByIdAsync(userId);
-            //if (user != null)
-            //{
-            //    try
-            //    {
-            //        var wishlistList = _context.Wishlists.Where(x => x.UserId == userId).ToList().Select(x=> ToUserWishlistDTO(x));
-            //        return Results.Ok(wishlistList);
-
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        return Results.StatusCode(503);
-                //    }
-
-                //}
             return Results.BadRequest("Unknown user");
         }
 

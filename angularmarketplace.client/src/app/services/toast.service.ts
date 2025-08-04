@@ -1,9 +1,10 @@
 import { Injectable, signal, TemplateRef } from '@angular/core';
 
 export interface Toast{
-  template: TemplateRef<any>;
   classname?: string;
   delay?: number;
+  body:TemplateRef<any> | string;
+  
 }
 
 @Injectable({

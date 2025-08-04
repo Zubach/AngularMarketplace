@@ -17,11 +17,45 @@ namespace AngularMarketplace.Server.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
+            modelBuilder.Entity("DataAccess.Entities.Producer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Producers");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.ProducerCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProducerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CategoryId", "ProducerId");
+
+                    b.HasIndex("ProducerId");
+
+                    b.ToTable("ProducerCategory");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.Product", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<int>("AvailabilityStatus")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("availability_status");
 
                     b.Property<int?>("CategoryID")
                         .HasColumnType("INTEGER");
@@ -41,6 +75,12 @@ namespace AngularMarketplace.Server.Migrations
                         .HasColumnType("REAL")
                         .HasColumnName("price");
 
+                    b.Property<int?>("ProducerID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SellerID")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -52,6 +92,10 @@ namespace AngularMarketplace.Server.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("url_title");
+
+                    b.Property<int>("VisibilityStatus")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("visibility_status");
 
                     b.Property<string>("img1")
                         .HasColumnType("nvarchar(30)");
@@ -74,6 +118,10 @@ namespace AngularMarketplace.Server.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("CategoryID");
+
+                    b.HasIndex("ProducerID");
+
+                    b.HasIndex("SellerID");
 
                     b.ToTable("tblProducts");
                 });
@@ -368,13 +416,40 @@ namespace AngularMarketplace.Server.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.ProducerCategory", b =>
+                {
+                    b.HasOne("DataAccess.Entities.ProductCategory", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccess.Entities.Producer", null)
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DataAccess.Entities.Product", b =>
                 {
                     b.HasOne("DataAccess.Entities.ProductCategory", "Category")
                         .WithMany("ProductsList")
                         .HasForeignKey("CategoryID");
 
+                    b.HasOne("DataAccess.Entities.Producer", "Producer")
+                        .WithMany("Products")
+                        .HasForeignKey("ProducerID");
+
+                    b.HasOne("DataAccess.Entities.User", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerID");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Producer");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ProductCategory", b =>
@@ -467,6 +542,11 @@ namespace AngularMarketplace.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Producer", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.ProductCategory", b =>
                 {
                     b.Navigation("ProductsList");
@@ -481,6 +561,8 @@ namespace AngularMarketplace.Server.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.User", b =>
                 {
+                    b.Navigation("Products");
+
                     b.Navigation("Wishlists");
                 });
 #pragma warning restore 612, 618

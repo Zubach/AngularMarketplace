@@ -1,0 +1,40 @@
+<div ngbAccordion #selectCategoryAccordion="ngbAccordion" [closeOthers]="true">
+        @for (item of list; track item.title;) {
+            @if(item.subCategoriesList && item.subCategoriesList.length > 0){
+            <div ngbAccordionItem>
+                <h2 ngbAccordionHeader>
+                  
+                    <button ngbAccordionButton (click)="changeCategory(item)">  
+                        @if(!item.isSubCategory && item.img != ""){
+                            <img [src]="'/assets/svgs/' + item.img" width="24" height="24" style="margin-right: 10px;">
+                        }
+                        {{ item.title }}
+                    </button>
+                </h2>
+                <div ngbAccordionCollapse>
+                    <div ngbAccordionBody>
+                        <ng-template>
+                            <!-- @if(item.subCategoriesList !== null){
+                                
+                                        @if(item.subCategoriesList.length > 0){
+                                            <app-select-category [list]="item.subCategoriesList"></app-select-category> 
+                                        }
+                                    
+                            } -->
+                            <app-select-category [list]="item.subCategoriesList" [parent]="item.title" (changeCategoryEvent)="changeCategory($event)" ></app-select-category> 
+                            <!-- @else{
+                                <button>{{item.title}}</button>
+
+                                (changeCategoryEvent)="changeCategory($event,item)"
+                            } -->
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        }
+        @else {
+            <button class="btn btn-outline-primary btn-category" type="button" (click)="changeCategory(item);">{{item.title}}</button>
+        }
+}  
+</div>
+    

@@ -48,4 +48,30 @@ export class AuthService {
     }
     return true;
   }
+  isAdmin():boolean{
+    const token = this.getToken();
+    if(token && token !==''){
+      const decodedToken:any = jwtDecode(token);
+      console.log(decodedToken);
+      return decodedToken.role == 'Admin';
+    }
+    return false;
+  }
+  isSeller():boolean{
+    const token = this.getToken();
+    if(token && token !==''){
+      const decodedToken:any = jwtDecode(token);
+      
+      return decodedToken.role == 'Seller';
+    }
+    return false;
+  }
+  getUserRole():string{
+    const token = this.getToken();
+    if(token && token != ""){
+      const decodedToken:any = jwtDecode(token);
+      return decodedToken.role;
+    }
+    return "";
+  }
 }

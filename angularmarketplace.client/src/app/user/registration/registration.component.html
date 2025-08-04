@@ -4,59 +4,87 @@
     </div>
 </ng-template>
 <div>
-    <form [formGroup]="form"  (ngSubmit) = "onSubmit()">
-        <div class="mb-3">
-            <input  class="form-control" placeholder="Full Name" formControlName="fullName">
-            @if( this.hasDisplayableError('fullName') && form.controls['fullName'].hasError('required')){
-                <div class="error-feedback" >Please enter your full name</div>
-            }
-            
-        </div>
-        <div class="mb-3">
-            <input class="form-control" placeholder="Email" formControlName="email">
-            @if( hasDisplayableError('email') ){
-                <div class="error-feedback" >
-                    @if(form.controls['email'].hasError('email')){
-                        <div>Your email is invalid</div>
-                    }
-                    @if(form.controls['email'].hasError('required')){
-                        <div>
-                            Please enter your email
-                        </div>
+
+       
+        @if(registerAs == '') {
+            <div>
+                <button class="btn " (click)="changeMode('Buyer')">
+                    Registrate as Buyer
+                </button>
+                <button class="btn btn-outline-primary" (click)="changeMode('Seller')">
+                    Registrate as Seller
+                </button>
+            </div>
+        }
+        @else {
+            <form [formGroup]="form"  (ngSubmit) = "onSubmit()">
+                <div class="mb-3">
+                    @switch (registerAs) {
+                        @case('Buyer'){
+                            <input  class="form-control" placeholder="Full Name" formControlName="fullName">
+                            @if( this.hasDisplayableError('fullName') && form.controls['fullName'].hasError('required')){
+                                <div class="error-feedback" >Please enter your full name</div>
+                            }
+                        }
+                        @case('Seller'){
+                            <input  class="form-control" placeholder="Store Name" formControlName="fullName">
+                            @if( this.hasDisplayableError('fullName') && form.controls['fullName'].hasError('required')){
+                                <div class="error-feedback" >Please enter your store name</div>
+                            }
+                        }
                     }
                     
+                    
                 </div>
-            }
-        </div>
-        <div class="mb-3">
-            <input type="password" class="form-control" placeholder="Password" formControlName="password">
-            @if(hasDisplayableError('password')){
-                <div class="error-feedback">
-                    @switch (form.controls['password'].errors | firtsKey) {
-                        
-                        @case('required'){
-                            <div>Please enter your password</div>
-                        }
-                        @case('minlength'){
-                            <div>Password must be at least 6 characters long</div>
-                        }
-                        @case('patternError'){
-                            <div>Password mast have at least one digit and one uppercase</div>
-                        }
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Email" formControlName="email">
+                    @if( hasDisplayableError('email') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['email'].hasError('email')){
+                                <div>Your email is invalid</div>
+                            }
+                            @if(form.controls['email'].hasError('required')){
+                                <div>
+                                    Please enter your email
+                                </div>
+                            }
+                            
+                        </div>
                     }
                 </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                    @if(hasDisplayableError('password')){
+                        <div class="error-feedback">
+                            @switch (form.controls['password'].errors | firtsKey) {
+                                
+                                @case('required'){
+                                    <div>Please enter your password</div>
+                                }
+                                @case('minlength'){
+                                    <div>Password must be at least 6 characters long</div>
+                                }
+                                @case('patternError'){
+                                    <div>Password mast have at least one digit and one uppercase</div>
+                                }
+                            }
+                        </div>
 
-            }
-        </div>
-         <div class="mb-3">
-            <input type="password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword">
-            @if(this.hasDisplayableError('confirmPassword') && form.controls['confirmPassword'].hasError('passwordMismatch')){
-                <div class="error-feedback">
-                    Passwords doesn't match.
+                    }
                 </div>
-            }
-        </div>
-        <button type="submit" class="btn btn-success">Register</button>
-    </form>
+                <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword">
+                    @if(this.hasDisplayableError('confirmPassword') && form.controls['confirmPassword'].hasError('passwordMismatch')){
+                        <div class="error-feedback">
+                            Passwords doesn't match.
+                        </div>
+                    }
+                </div>
+                <button type="submit" class="btn btn-success">Register</button>
+            </form>
+
+        }
+
+    
 </div>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

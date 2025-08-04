@@ -13,6 +13,7 @@ namespace AngularMarketplace.Server.Extensions
         {
             services
                 .AddIdentityApiEndpoints<User>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
             return services;
         }
@@ -51,6 +52,7 @@ namespace AngularMarketplace.Server.Extensions
                 .Build();
 
             });
+            
             return services;
         }
 

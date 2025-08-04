@@ -6,5 +6,8 @@
             <app-searchbar></app-searchbar>
         </div>
         <div class="header-actions"></div>
+        @if(isLoggedIn){
+            <button class="btn btn-danger" (click)="logout()">Logout</button>
+        }
     </header>
 </div>

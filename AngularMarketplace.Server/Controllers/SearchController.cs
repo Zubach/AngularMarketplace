@@ -15,10 +15,12 @@ namespace AngularMarketplace.Server.Controllers
     public class SearchController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<SearchController> _logger;
 
-        public SearchController(AppDbContext context)
+        public SearchController(AppDbContext context,ILogger<SearchController> logger)
         {
             this._context = context;
+            this._logger = logger;
         }
 
         [HttpGet("searchby_urltitle_mask/{url_title};{mask}")]
@@ -30,7 +32,9 @@ namespace AngularMarketplace.Server.Controllers
                 {
                     if (mask[0] == 'c')
                     {
-                        ProductCategory category = _context.ProductCategories.Where(x => x.Mask == mask && x.Url_Title == url_title).Include(c => c.ProductsList).Include(c=> c.SubCategoriesList).Single();
+                        // remove c from mask
+                        mask = mask.Substring(1);
+                        ProductCategory category = _context.ProductCategories.Where(x => x.Mask == mask && x.Url_Title == url_title).Include(c => c.ProductsList).Include(c=> c.SubCategoriesList).SingleOrDefault();
                         if (category != null)
                         {
                             if(category.SubCategoriesList?.Count > 0)
@@ -76,6 +80,7 @@ namespace AngularMarketplace.Server.Controllers
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError(ex, ex.Message);
                     return new JsonResult($"{ex.Message}");
                 }
             }

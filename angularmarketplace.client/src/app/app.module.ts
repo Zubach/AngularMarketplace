@@ -1,13 +1,15 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IMAGE_CONFIG, IMAGE_LOADER, ImageLoaderConfig, NgOptimizedImage } from '@angular/common';
+import {  registerLocaleData } from '@angular/common';
  
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductItemComponent } from './product-list/product-item/product-item.component';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
 import { MobileUserMenuComponent } from './header/mobile-user-menu/mobile-user-menu.component';
@@ -17,10 +19,23 @@ import { SearchresultComponent } from './search/searchresult/searchresult.compon
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { CategorypageComponent } from './categorypage/categorypage.component';
-import { environment } from '../environments/environment.development';
+
 import {ImageLoaderDirective} from './Directives/image-loader.directive';
 import { WishlistComponent } from './user/cabinet/wishlist/wishlist.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { SellerMenuComponent } from './user/seller/seller-menu/seller-menu.component';
+import { SellerProductsListComponent } from './user/seller/seller-menu/seller-products-list/seller-products-list.component';
+import { FormsModule } from '@angular/forms';
+import { CreateProductComponent } from "./user/seller/seller-menu/create-product/create-product.component";
+import { CategoriesMenuComponent } from './Areas/admin/cabinet/categories-menu/categories-menu.component';
+import { CategoriesTableComponent } from './Areas/admin/cabinet/categories-menu/categories-table/categories-table.component';
+import { AdminCabinetComponent } from './Areas/admin/cabinet/cabinet.component';
+import { HomeComponent } from './home/home.component';
+import { AddCategoryComponent } from "./Areas/admin/cabinet/categories-menu/add-category/add-category.component";
+import { ToastContainer } from "./toast-container/toast-container.component";
+import { ModeratorCabinetComponent } from './Areas/moderator/cabinet/cabinet.component';
+
+
 
 
 @NgModule({
@@ -37,13 +52,23 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     MainpageComponent,
     CategorypageComponent,
     ImageLoaderDirective,
-    WishlistComponent
+    WishlistComponent,
+    SellerMenuComponent,
+    SellerProductsListComponent,
+    CategoriesMenuComponent,
+    CategoriesTableComponent,
+    AdminCabinetComponent,
+    HomeComponent,
+    ModeratorCabinetComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    NgOptimizedImage,
+    FormsModule,
+    CreateProductComponent,
+    AddCategoryComponent,
+    ToastContainer
 ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

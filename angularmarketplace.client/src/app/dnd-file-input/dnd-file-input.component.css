@@ -1,0 +1,68 @@
+.drag-n-drop-file-container > input{
+    display: none;
+}
+
+.drag-n-drop-file-container{
+    display: grid;
+    justify-content: center;
+    background-color: var(--global-color-white);
+    padding: 2%;
+    border-radius: var(--bs-border-radius);
+}
+.drag-n-drop-file-container > svg{
+    fill: var(--global-color-gray);
+}
+.drag-n-drop-file-container > label{
+    text-align: center;
+    color: var(--global-color-gray);
+    font-size: large;
+    font-weight: bold;
+}
+.drag-n-drop-file-container > span{
+    text-align: center;
+    color: var(--global-color-gray);
+}
+.drag-n-drop-file-container:hover{
+    cursor: pointer;
+}
+.drag-n-drop-file-container.drag-over{
+    
+    background-color: var(--global-color-gray);
+    border-color: var(--global-color-white);
+    border-width: var(--bs-border-width);
+    transition: background-color 1.5s;
+    transition: color 1.5s;
+}
+.drag-n-drop-file-container.drag-over > span{
+     color: var(--global-color-white);
+}
+.drag-n-drop-file-container.drag-over > label{
+    color: var(--global-color-white);
+}
+.drag-n-drop-file-container.drag-over > svg{
+    fill:var(--global-color-white);
+}
+
+.drag-n-drop-file-container.img-preview > img{
+    max-width: 300px;
+    max-height: 300px;
+}
+ 
+.drag-n-drop-file-container.img-preview > div > img{
+    max-width: 300px;
+    max-height: 300px;
+}
+.drag-n-drop-file-container.img-preview > div > img {
+   border-radius: var(--bs-border-radius);
+}
+.drag-n-drop-file-container.img-preview > label{
+    font-size: medium;
+}
+.drag-n-drop-file-container.img-preview:hover{
+    background-color: var(--global-color-gray);
+    transition: background-color 1.5s;
+    transition: color 1.5s;
+}
+.drag-n-drop-file-container.img-preview:hover > label{
+    color:var(--global-color-white);
+}

@@ -14,7 +14,7 @@ export class ImageLoaderDirective implements OnInit {
   constructor() { }
 
     ngOnInit(): void {
-      /* Add cdnUrl to imgName to make fullPath */
+      /* Add cdnUrl to imgName for make fullPath */
       let url = environment.cdnUrl;
               let queryParams = [];  
               switch(this.load_from){

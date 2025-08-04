@@ -1,0 +1,27 @@
+.multiple-drag-n-drop-file-container > .sub-files-container{
+    display: grid;
+    grid-template-columns: repeat(5,80px);
+    grid-template-rows: 80px;
+    column-gap: 1%;
+    row-gap: 1%;
+    justify-content: center;
+    background-color: var(--global-color-white);
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+}
+.multiple-drag-n-drop-file-container > .sub-files-container > div{
+    border-radius: var(--bs-border-radius);
+    border-color: var(--global-color-gray);
+    border: 1px solid;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.multiple-drag-n-drop-file-container > .sub-files-container > div > svg{
+    fill: var(--global-color-gray);
+}
+.multiple-drag-n-drop-file-container > .sub-files-container > div > img{
+    max-width: 80px;
+    max-height: 80px;
+}

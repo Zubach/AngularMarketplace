@@ -1,0 +1,33 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Mask</th>
+                <th>Price</th>
+                <th>Images</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(p of products;track p){
+                <tr>
+                    <td>{{p.title}}</td>
+                    <td>{{p.mask}}</td>
+                    <td>{{p.price }}</td>
+                    <td>...</td>
+                    <td>
+                        @switch(p.status){
+                            @case(StatusEnum.Processing){
+                                processing
+                            }
+                            @case(StatusEnum.NotApproved){
+                                !approved
+                            }   
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

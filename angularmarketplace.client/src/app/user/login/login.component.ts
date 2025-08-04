@@ -5,6 +5,7 @@ import { UserLogin } from '../../Models/User/user-login';
 import { AuthService } from '../../services/auth.service';
 import { ToastContainer } from '../../toast-container/toast-container.component';
 import { ToastService } from '../../services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnDestroy {
   isSubmitted:Boolean = false;
   @ViewChild("loginFailed") loginFailedEl!:TemplateRef<any>;
 
-  constructor(public formBuilder: FormBuilder,private authService:AuthService,private toastService:ToastService){
+  constructor(public formBuilder: FormBuilder,private authService:AuthService,private toastService:ToastService, private router:Router){
     this.form = this.formBuilder.group({
               email: ['',[Validators.required,Validators.email]],
               password: ['',[Validators.required]]
@@ -37,14 +38,26 @@ export class LoginComponent implements OnDestroy {
       };
       this.authService.login(usr).subscribe({
         next:(response:any)=>{
+
           this.authService.saveToken(response.token);
+          switch(this.authService.getUserRole()){
+            case "Admin":
+              this.router.navigateByUrl("/admin-cabinet");
+              break;
+            case "Seller":
+              this.router.navigateByUrl("/sellermenu");
+              break;
+            default:
+              this.router.navigateByUrl("/");
+              break;
+          }
         },
         error: err=>{
           if(err.status == 400){
             
             this.toastService.show(
               {
-                template:this.loginFailedEl,
+                body:this.loginFailedEl,
                 classname: 'bg-danger text-light',
                 delay: 5000
               }

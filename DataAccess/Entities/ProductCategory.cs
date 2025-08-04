@@ -35,6 +35,7 @@ namespace DataAccess.Entities
         public int? ParentID { get; set; }
         public ProductCategory? Parent { get; set; }
 
+        public ICollection<Producer>? Producers { get; set; }
 
     }
 }

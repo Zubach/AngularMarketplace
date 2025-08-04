@@ -46,9 +46,20 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "*.svg",
+                "input": "./node_modules/bootstrap-icons/icons/",
+                "output": "/assets/svgs/"
               }
             ],
             "styles": [

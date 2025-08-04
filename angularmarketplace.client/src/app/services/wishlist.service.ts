@@ -13,8 +13,6 @@ export class WishlistService {
   constructor(private http:HttpClient, private authService:AuthService) { }
 
   getUserWishlists(){
-    console.log(this.authService.getToken());
-   // const reqHeader = new HttpHeaders({'Authorization':'Bearer ' + this.authService.getToken()});
     return this.http.get<Wishlist[]>(this.baseUrl + "/get_user_wishlists");
   }
 }

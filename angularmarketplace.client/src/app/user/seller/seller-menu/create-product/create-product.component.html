@@ -1,0 +1,119 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+		<h4 class="modal-title">Add product</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="title">Product title</label>
+                <input class="form-control" placeholder="Product title" formControlName="title">
+                 @if( hasDisplayableError('title') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['title'].hasError('required')){
+                                <div>
+                                    Product title is required
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+            </div>
+            <div class="mb-3">
+                <label for="description">Description</label>
+                <textarea type="textarea" class="form-control" placeholder="Product description" formControlName="description"></textarea>
+                 @if( hasDisplayableError('description') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['description'].hasError('required')){
+                                <div>
+                                    Description is required
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+            </div>
+            <div class="mb-3">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" placeholder="Product price" formControlName="price" min="0">
+                 @if( hasDisplayableError('price') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['price'].hasError('required')){
+                                <div>
+                                    Price is required
+                                </div>
+                            }
+                            @if(form.controls['price'].hasError('min')){
+                                <div>
+                                    Price must be positive
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+            </div>
+            <div class="mb-3">
+                @if(hasDisplayableError('imgs')){
+                    <div class="error-feedback" >
+                            @if(form.controls['imgs'].hasError('required')){
+                                <div>
+                                    Atleast 1 image required.
+                                </div>
+                            }
+                            @if(form.controls['imgs'].hasError('max')){
+                                <div>
+                                    Count of images cant be more than 6.
+                                </div>
+                            }
+                            
+                        </div>
+                }
+                <app-multiple-dnd-file-input labelText="Upload product images" (filesChanged)="onFilesChange($event)"></app-multiple-dnd-file-input>
+            </div>
+            <div class="mb-3">
+                <div>Choosen category:</div>  
+                @let choosenCategory = form.controls['choosenCategory'].value;
+                @if(choosenCategory){
+                    <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                    @if(choosenCategory.parent){
+                        
+                                
+                                @if (choosenCategory.parent.parent) {
+                                    <li class="breadcrumb-item active" aria-current="page">{{choosenCategory.parent.parent.title}}</li>
+                                }
+                                <li class="breadcrumb-item active" aria-current="page">{{choosenCategory.parent.title}}</li>
+
+                            
+                    }
+                        <li class="breadcrumb-item active" aria-current="page">{{choosenCategory.title}}</li>
+                            </ol>
+                    </nav>
+                }
+                
+                        <app-select-category [list]="categoriesList" (changeCategoryEvent)="onChangeCategory($event)" ></app-select-category>
+                        
+                 @if(hasDisplayableError('choosenCategory')){
+                    @if(form.controls['choosenCategory'].hasError('max')){
+                        <div class="error-feedback" >
+                            
+                                <div>
+                                    Please choose product category
+                                </div>
+                            
+                        </div>
+                    }
+                }
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+                Add product
+            </button>
+            <button class="btn btn-danger" (click)="modal.dismiss('Cross click')">
+                Cancel
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        test
+    </div>
+</ng-template>

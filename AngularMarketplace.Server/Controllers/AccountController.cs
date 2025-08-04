@@ -19,13 +19,15 @@ namespace AngularMarketplace.Server.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public AccountController(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration,ILogger<AccountController> logger)
         {
             this._context = context;
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._configuration = configuration;
+            this._logger = logger;
         }
 
         [AllowAnonymous]
@@ -42,6 +44,14 @@ namespace AngularMarketplace.Server.Controllers
                         Email = userDTO.Email
                     };
                     var response = await _userManager.CreateAsync(_user, userDTO.Password);
+                    if(userDTO.Role == "Buyer" || userDTO.Role == "Seller")
+                    {
+                        await _userManager.AddToRoleAsync(_user, userDTO.Role);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(_user, "Buyer");
+                    }
                     if (response.Succeeded)
                     {
                         return Results.Ok(response);
@@ -50,7 +60,8 @@ namespace AngularMarketplace.Server.Controllers
 
                 }
                 catch (Exception ex) {
-                    // to log
+                    _logger.LogError(ex, ex.Message);
+                    return Results.BadRequest(new { custom_message = "Something went wrong.Please try again later" });
                 }
             }
             return Results.BadRequest(new { custom_message = "Data is invalid." });
@@ -63,20 +74,30 @@ namespace AngularMarketplace.Server.Controllers
             var user = await _userManager.FindByEmailAsync(userLoginDTO.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user,userLoginDTO.Password))
             {
-                var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:JWTSecret"]!));
-                SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+                try
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:JWTSecret"]!));
+                    SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        new Claim("UserID",user.Id)
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(15),
-                    SigningCredentials = new SigningCredentials(signInKey,SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return Results.Ok(new {token});
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                        new Claim("UserID",user.Id),
+                        new Claim(ClaimTypes.Role, roles.First())
+                        }),
+                        Expires = DateTime.UtcNow.AddDays(15),
+                        SigningCredentials = new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                    var token = tokenHandler.WriteToken(securityToken);
+                    return Results.Ok(new { token });
+                }
+                catch(Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    return Results.BadRequest(new { custom_message = "Something went wrong.Please try again later" });
+                }
             }
             return Results.BadRequest(new {custom_message = "Username or password is incorrect." });
         }

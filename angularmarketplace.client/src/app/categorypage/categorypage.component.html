@@ -1,7 +1,7 @@
 <div class="categories-grid" nz-row>
     @for(category of categoriesList; track category.mask){
         <div nz-col nzSpan="6">
-            <a [routerLink]="['/',category.url_Title,category.mask]">
+            <a [routerLink]="['/',category.url_Title,'c' + category.mask]">
                 <img [src]="category.img"  alt="test" appImageLoader load_from="categories">
                 <span class="category-title">{{category.title}}</span>
                 <!-- @if(category.SubCategoriesList.length > 0){

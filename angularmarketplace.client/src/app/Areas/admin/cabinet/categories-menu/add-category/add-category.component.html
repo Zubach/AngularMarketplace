@@ -1,0 +1,130 @@
+<ng-template #rt let-r="result" let-t="term">
+	<img [src]="'/assets/svgs/' + r['file_name']" class="me-1" style="width: 16px" />
+	<ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+		<h4 class="modal-title">Add category</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+    <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="title">Category title</label>
+                <input class="form-control" placeholder="Product title" formControlName="title">
+                 @if( hasDisplayableError('title') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['title'].hasError('required')){
+                                <div>
+                                    Category title is required
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+            </div>
+            <div class="mb-3">
+                <label for="title">Category Url title</label>
+                <input class="form-control" placeholder="Product title" formControlName="url_title">
+                 @if( hasDisplayableError('url_title') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['url_title'].hasError('required')){
+                                <div>
+                                    Category title is required
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+            </div>
+            <div class="mb-3">
+                <label for="mask">Mask</label>
+                <input class="form-control" placeholder="mask"   [value]="model?.mask" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="logo"></label>
+                <app-dnd-file-input labelText="Upload logo" accept="image/jpeg,image/png" annotation="*.jpeg,*.jpg,*png" (filesChanged)="logoChanged($event)" [previewEnable]="true"></app-dnd-file-input>
+                <input type="file" hidden accept="image/*" #fileInput (change)="logoSelected($event)">
+                <button class="btn" type="button" (click)="fileInput.click()">Upload logo</button>
+                @if(logoBase64){
+                    <img [src]="logoBase64">
+                }
+            </div>
+            <div class="mb-3">
+                <label for="svg">Or select svg</label>
+                <span>*Only for main categories</span>
+                <div class="col">
+                <input
+                    id="typeahead-template"
+                    type="text"
+                    class="form-control col"
+                    [(ngModel)]="svg"
+                    [ngModelOptions]="{standalone:true}"
+                    [ngbTypeahead]="search"
+                    [resultTemplate]="rt"
+                    [inputFormatter]="formatter"
+                />
+            </div>
+            </div>
+            <div class="mb-3">
+                <div>Choosen category:</div>  
+                @let parent = form.controls['parentCategory'].value;
+                <div class="choosen-category-container mb-3">
+                    
+                        
+                        
+                            <div>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                        @if(parent){
+                                        @if(parent.parent){
+                                            
+                                                    
+                                                    @if (parent.parent.parent) {
+                                                        <li class="breadcrumb-item active" aria-current="page">{{parent.parent.parent.title}}</li>
+                                                    }
+                                                    <li class="breadcrumb-item active" aria-current="page">{{parent.parent.title}}</li>
+
+                                                
+                                        }
+                                            <li class="breadcrumb-item active" aria-current="page">{{parent.title}}</li>
+                                        }
+                                        @else {
+                                            <li class="breadcrumb-item active" aria-current="page">/</li>
+                                        }
+                                </ol>
+                                 
+                            </nav>
+                            </div>
+                            
+                    
+                   
+                   
+                    <button  type="button" [ngClass]="categoryBtnClass" (click)="categoryBtnClick()">{{categoryBtnHTML}}</button>
+                </div>
+                <ng-template #selectCatModal let-modalCat>
+                    <div class="modal-header">
+                        Select parent category
+                        <button type="button" class="btn-close" aria-label="Close" (click)="modalCat.dismiss('Cross click')"></button>
+                    </div>
+                    <div class="modal-body">
+                         <app-select-category #selectCategory [list]="categoriesList" (changeCategoryEvent)="onChangeCategory($event)" ></app-select-category>
+                    </div>
+                   
+                </ng-template>
+                        
+                        
+            </div>
+            <button type="submit" class="btn btn-outline-primary" [disabled]="form.invalid">
+                Add category
+            </button>
+            <button class="btn btn-danger" (click)="modal.dismiss('Cross click')">
+                Cancel
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        test
+    </div>
+</ng-template>

@@ -1,0 +1,8 @@
+.choosen-category-container{
+    display: grid;
+    grid-template-columns: 2fr  1fr;
+} 
+
+.choosen-category-container > div{
+    display: inline;
+}

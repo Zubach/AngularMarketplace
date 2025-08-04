@@ -2,7 +2,15 @@
     <ul>
         @for(category of categories; track category.mask){
 
-            <li ><a class="category-link" [routerLink]="['/',category.url_Title,category.mask]">{{category.title}}</a></li>
+            <li ><a class="category-link" [routerLink]="['/',category.url_Title,'c' + category.mask]">
+                @if(category.img != ""){
+                    @if(!category.isSubCategory){
+                     <img [src]="'/assets/svgs/' + category.img" width="32" height="32"> 
+                    }
+                } 
+               
+                {{category.title}}
+            </a></li>
         }
     </ul>
 </div>

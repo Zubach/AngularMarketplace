@@ -18,6 +18,7 @@ export class RegistrationComponent implements OnDestroy {
   isSubmitted:Boolean = false;
   @ViewChild("registrationFailed") regFailedEl!: TemplateRef<any>;
   errorMsg:string = '';
+  registerAs:string = '';
   constructor(public formBuilder:FormBuilder,private authService:AuthService,private toastService:ToastService){
     this.form = this.formBuilder.group({
         fullName: ['',Validators.required],
@@ -59,7 +60,8 @@ export class RegistrationComponent implements OnDestroy {
       let usr:UserRegistration = {
         fullName : this.form.controls['fullName'].value,
         email : this.form.controls['email'].value,
-        password : this.form.controls['password'].value
+        password : this.form.controls['password'].value,
+        role: this.registerAs
       };
 
       this.authService.register(usr).subscribe(
@@ -79,7 +81,7 @@ export class RegistrationComponent implements OnDestroy {
               this.errorMsg = err.custom_message;
             }
             this.toastService.show({
-              template: this.regFailedEl,
+              body: this.regFailedEl,
               classname: 'bg-danger text-light',
               delay: 5000
             });
@@ -87,6 +89,10 @@ export class RegistrationComponent implements OnDestroy {
         }
       );
     }
+  }
+  changeMode(mode:string){
+    console.log(mode);
+    this.registerAs = mode;
   }
 
   hasDisplayableError(controlName:string):Boolean{

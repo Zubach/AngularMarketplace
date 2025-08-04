@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, TemplateRef, viewChild, ViewChild } from '@angular/core';
-import { Product } from '../../Models/product.model';
+import { Product } from '../../Models/product/product.model';
 import { ProductService } from '../../services/product.service';
 import { SearchService } from '../../services/search.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Category } from '../../Models/category.model';
+import { Category } from '../../Models/category/category.model';
 import { filter, Subject, takeUntil } from 'rxjs';
 
 @Component({

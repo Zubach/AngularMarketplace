@@ -1,0 +1,24 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Mask</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(p of product_list;track p.id){
+                <tr>
+                    <td>{{p.title}}</td>
+                    <td>{{p.mask}}</td>
+                    <td>{{p.price | number}}</td>
+                    <td><img [src]="p.img1"  appImageLoader></td>
+                    <td>--</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

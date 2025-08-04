@@ -8,6 +8,21 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Entities
 {
+    public enum ProductAvailabilityStatus
+    {
+        InStock,
+        OutOfStock,
+        Pending,
+        Discontinued
+
+    }
+    public enum ProductVisibilityStatus
+    {
+        Approved,
+        Processing,
+        NotApproved
+    }
+
     [Table("tblProducts")]
     public class Product
     {
@@ -39,9 +54,18 @@ namespace DataAccess.Entities
         [Column(TypeName = "nvarchar(30)")]
         public string? img6 { get; set; }
 
-
+        [Column("availability_status")]
+        public ProductAvailabilityStatus AvailabilityStatus { get; set; }
+        [Column("visibility_status")]
+        public ProductVisibilityStatus VisibilityStatus { get; set; }
 
         public int? CategoryID { get; set; }
-        public ProductCategory Category { get; set; }
+        public ProductCategory? Category { get; set; }
+
+        public string? SellerID { get; set; }
+        public User? Seller { get; set; }
+
+        public int? ProducerID { get; set; }
+        public Producer? Producer { get; set; }
     }
 }
