@@ -36,6 +36,11 @@ builder.Services.AddDbContext<AppDbContext>(options=>
 
 builder.Services.AddControllers();
 
+// Swagger
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // JSON Serializer
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 {
@@ -47,8 +52,19 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 
 var app = builder.Build();
 
+
+if (app.Environment.IsDevelopment())
+{
+
+    //swagger
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+
 
 
 app.UseStaticFiles(new StaticFileOptions

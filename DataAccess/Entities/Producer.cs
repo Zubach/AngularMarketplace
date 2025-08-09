@@ -12,6 +12,11 @@ namespace DataAccess.Entities
         public int ID { get; set; }
         public string Name { get; set; }
 
+        public DateTime DateAdded { get; set; }
+        
+        public string? CreatorId { get; set; }
+        public User? Creator { get; set; }
+
         public ICollection<ProductCategory>? Categories { get; set; }
 
         public ICollection<Product>? Products { get; set; }
