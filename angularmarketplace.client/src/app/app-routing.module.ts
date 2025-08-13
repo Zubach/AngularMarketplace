@@ -17,6 +17,7 @@ import { nonAuthGuard } from './guards/non-auth.guard';
 import { ModeratorCabinetComponent } from './Areas/moderator/cabinet/cabinet.component';
 import { ModeratorProductsComponent } from './Areas/moderator/cabinet/products/products.component';
 import { moderatorOrAdminGuard } from './guards/moderator-or-admin.guard';
+import { ProducerMenuComponent } from './Areas/admin/cabinet/producer-menu/producer-menu.component';
 
 const routes: Routes = [
 
@@ -25,7 +26,8 @@ const routes: Routes = [
     canActivate: [adminGuard],
     component: AdminCabinetComponent,
     children:[
-      {path: 'categories-menu',component:CategoriesMenuComponent}
+      {path: 'categories-menu',component:CategoriesMenuComponent},
+      {path: 'producer',component:ProducerMenuComponent}
     ]
   },
   {

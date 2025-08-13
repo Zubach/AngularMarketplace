@@ -12,6 +12,8 @@ namespace AngularMarketplace.Server
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<Producer> Producers { get; set; }
 
+      
+
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions):base(dbContextOptions)
         {
             
@@ -23,7 +25,7 @@ namespace AngularMarketplace.Server
                 .WithMany(x => x.Producers)
                 .UsingEntity<ProducerCategory>(
                     r => r.HasOne<ProductCategory>().WithMany().HasForeignKey(x => x.CategoryId),
-                    l => l.HasOne<Producer>().WithMany().HasForeignKey(x=> x.ProducerId)
+                    l => l.HasOne<Producer>().WithMany().HasForeignKey(x => x.ProducerId)
                 );
             base.OnModelCreating(builder);
         }

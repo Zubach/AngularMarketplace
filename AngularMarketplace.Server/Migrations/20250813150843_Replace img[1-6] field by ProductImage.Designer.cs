@@ -3,6 +3,7 @@ using System;
 using AngularMarketplace.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AngularMarketplace.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250813150843_Replace img[1-6] field by ProductImage")]
+    partial class Replaceimg16fieldbyProductImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -37,7 +40,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Producers", (string)null);
+                    b.ToTable("Producers");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ProducerCategory", b =>
@@ -52,7 +55,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("ProducerId");
 
-                    b.ToTable("ProducerCategory", (string)null);
+                    b.ToTable("ProducerCategory");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Product", b =>
@@ -113,7 +116,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("SellerID");
 
-                    b.ToTable("tblProducts", (string)null);
+                    b.ToTable("tblProducts");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ProductCategory", b =>
@@ -153,7 +156,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("ParentID");
 
-                    b.ToTable("tblProductCategories", (string)null);
+                    b.ToTable("tblProductCategories");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ProductImage", b =>
@@ -173,7 +176,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImage", (string)null);
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Wishlist", b =>
@@ -194,7 +197,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Wishlists", (string)null);
+                    b.ToTable("Wishlists");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.WishlistItem", b =>
@@ -215,7 +218,7 @@ namespace AngularMarketplace.Server.Migrations
 
                     b.HasIndex("WishlistId");
 
-                    b.ToTable("WishlistItem", (string)null);
+                    b.ToTable("WishlistItem");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

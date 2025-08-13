@@ -1,0 +1,3 @@
+<app-add-producer [categories]="categories" (onCreated)="onProducerCreated($event)"></app-add-producer>
+<button class="btn btn-outline-primary" (click)="addProducerShowModal()">Add producer</button>
+<app-producer-table [producers]="producers"></app-producer-table>

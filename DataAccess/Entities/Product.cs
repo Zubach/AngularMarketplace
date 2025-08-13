@@ -41,18 +41,10 @@ namespace DataAccess.Entities
 
         [Column("price")]
         public float Price { get; set; }
-        [Column(TypeName="nvarchar(30)")]
-        public string? img1 { get; set; }
-        [Column(TypeName = "nvarchar(30)")]
-        public string? img2 { get; set; }
-        [Column(TypeName = "nvarchar(30)")]
-        public string? img3 { get; set; }
-        [Column(TypeName = "nvarchar(30)")]
-        public string? img4 { get; set; }
-        [Column(TypeName = "nvarchar(30)")]
-        public string? img5 { get; set; }
-        [Column(TypeName = "nvarchar(30)")]
-        public string? img6 { get; set; }
+
+
+        
+        public ICollection<ProductImage> Images{ get; set; }
 
         [Column("availability_status")]
         public ProductAvailabilityStatus AvailabilityStatus { get; set; }

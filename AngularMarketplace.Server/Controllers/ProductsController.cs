@@ -1,5 +1,4 @@
-﻿using AngularMarketplace.Server.DTOs;
-using AngularMarketplace.Server.DTOs.Category;
+﻿using AngularMarketplace.Server.DTOs.Category;
 using AngularMarketplace.Server.DTOs.Product;
 using AngularMarketplace.Server.Services.Intefaces;
 using DataAccess.Entities;
@@ -165,10 +164,7 @@ namespace AngularMarketplace.Server.Controllers
                             var file = dto.Imgs[i];
                             string fileName = product.Mask + $"_{i+1}.{_uploadImageService.GetFileExtension(file.FileName)}";
                             await _uploadImageService.UploadImageAsync(file, Path.Combine(_env.ContentRootPath, "Images", "Products"), fileName);
-                            var p = props.FirstOrDefault(p => p.Name == "img" + (i + 1).ToString());
-                            if (p != null) { 
-                                p.SetValue(product, fileName);
-                            }
+                            product.Images.Add(new ProductImage { Product = product, Filename = fileName });
                             
                         }
                     }
@@ -213,19 +209,7 @@ namespace AngularMarketplace.Server.Controllers
         private ModerationProductDTO ToModerationProductDTO(Product product)
         {
 
-            List<string> imgs = new List<string>();
-            if(product.img1 != null  && product.img1 != String.Empty)
-            {
-                var props = typeof(Product).GetProperties().Where(p => p.Name.Contains("img"));
-                foreach(var p in props)
-                {
-                    string value = p.GetValue(product) as string;
-                    if(value !=null && value != String.Empty)
-                    {
-                        imgs.Add(value);
-                    }
-                }
-            }
+            
             return new ModerationProductDTO()
             {
                 Title = product.Title,
@@ -234,7 +218,7 @@ namespace AngularMarketplace.Server.Controllers
                 CategoryID = product.CategoryID ?? 0,
                 Price = product.Price,
                 Status = product.VisibilityStatus,
-                Imgs = imgs.ToArray()
+                Imgs = product.Images?.Select(x=> x.Filename)?.ToArray() ?? []
             };
         }
 
@@ -245,8 +229,8 @@ namespace AngularMarketplace.Server.Controllers
                 ID = product.ID,
                 Description = product.Description,
                 Title = product.Title,
-                img1 = product.img1,
-                img2 = product.img2,
+                img1 = product.Images?.ElementAtOrDefault(0)?.Filename ?? "",
+                img2 = product.Images?.ElementAtOrDefault(1)?.Filename ?? "",
                 Price = product.Price,
                 Mask = product.Mask,
                 Url_Title = product.Url_Title

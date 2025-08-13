@@ -1,0 +1,22 @@
+
+    <div style="padding: 5%;">
+       
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" 
+                        (change)="update($event)" 
+                        [checked]="checkBoxes().checked" 
+                        [indeterminate]="partiallyChecked()" >
+
+                    <label class="form-check-label" >
+                        {{checkBoxes().title}}
+                    </label>
+                </div>
+                @if(checkBoxes().children){
+                  @for(subC of checkBoxes().children;track subC; let i = $index){
+
+                      <app-admin-select-categories [checked]="subC.checked"  (change)="update($event,i)" [checkBoxes]="convertToSignal(subC)" ></app-admin-select-categories>
+                  }
+                }
+            </div>       
+    </div>

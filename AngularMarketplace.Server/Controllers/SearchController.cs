@@ -1,4 +1,5 @@
 ﻿using AngularMarketplace.Server.DTOs;
+using AngularMarketplace.Server.DTOs.Product;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -96,8 +97,8 @@ namespace AngularMarketplace.Server.Controllers
                 ID = product.ID,
                 Description =  product.Description,
                 Title = product.Title,
-                img1 = product.img1,
-                img2 = product.img2,
+                img1 = product.Images.ElementAtOrDefault(0)?.Filename ?? "",
+                img2 = product.Images.ElementAtOrDefault(1)?.Filename ?? "",
                 Price = product.Price,
                 Mask = product.Mask,
                 Url_Title = product.Url_Title

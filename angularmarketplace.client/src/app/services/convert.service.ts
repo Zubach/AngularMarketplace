@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Category } from '../Models/category/category.model';
+import { Checkbox } from '../Models/checkbox/checkbox.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class ConvertService {
            formData.append(key,value);
        });
     return formData;
+  }
+  categoryToCategoryCheckbox(category:Category):Checkbox{
+    return {
+      id:category.id,
+      title: category.title,
+      checked: false,
+      children: category.subCategoriesList?.map(c => this.categoryToCategoryCheckbox(c))
+    };
   }
 }

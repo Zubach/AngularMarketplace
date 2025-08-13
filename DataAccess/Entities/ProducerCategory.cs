@@ -15,7 +15,8 @@ namespace DataAccess.Entities
 
         public int ProducerId { get; set; }
 
-        public int CategoryId { get; set; }
+
+        public int CategoryId  { get; set; }
 
         
 

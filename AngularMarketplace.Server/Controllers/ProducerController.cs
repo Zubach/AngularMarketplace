@@ -18,7 +18,7 @@ namespace AngularMarketplace.Server.Controllers
             this._logger = logger;
         }
 
-        [HttpPost("add_producer")]
+        [HttpPost("producers")]
         [Authorize(Roles = "Moderator,Admin")]
         public async Task<IResult> AddProducer([FromBody]CreateProducerDTO dto)
         {
@@ -33,14 +33,20 @@ namespace AngularMarketplace.Server.Controllers
                         CreatorId = user.FindFirst(x=> x.Type == "UserID")?.Value ?? "",
                         DateAdded = DateTime.UtcNow
                     };
-                    producer.Categories = dto.Categories.Select(
-                         x => new ProductCategory
-                         {
-                             ID = x
-                         }
-                     ).ToList();
+
+                    //producer.Categories = dto.Categories.Select(
+                    //     x => new ProductCategory
+                    //     {
+                    //         ID = x
+                    //     }
+                    // ).ToList();
+                    producer.Categories = _context.ProductCategories.Where(x => dto.Categories.Contains(x.ID)).ToList();
                     _context.Producers.Add(producer);
+
+                   
+                    
                     await _context.SaveChangesAsync();
+
                     return Results.Created();
                 }
                 catch(Exception ex)
@@ -52,7 +58,7 @@ namespace AngularMarketplace.Server.Controllers
             return Results.BadRequest("Unknown user.");
 
         }
-        [HttpGet("get_producers")]
+        [HttpGet("producers")]
         public async Task<IResult> GetProducers()
         {
             try

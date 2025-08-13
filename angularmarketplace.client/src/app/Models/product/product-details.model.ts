@@ -1,10 +1,9 @@
-export interface Product{
+export interface ProductDetails {
     id:number;
     title:string;
     description:string;
     url_Title:string;
     mask:string;
     price:number;
-    img1:string;
-    img2:string;
+    images:string[];
 }
