@@ -38,8 +38,7 @@ builder.Services.AddControllers();
 
 // Swagger
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.SetupSwagger();
 
 // JSON Serializer
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
