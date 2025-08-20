@@ -1,3 +1,7 @@
+<ng-template #rt_producer let-r="result" let-t="term">
+	<ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
+
 <ng-template #content let-modal>
     <div class="modal-header">
 		<h4 class="modal-title">Add product</h4>
@@ -32,6 +36,32 @@
                             
                         </div>
                     }
+            </div>
+            <div class="mb-3">
+                <label for="producerId">Producer</label>
+                <input type="producerId" class="form-control" 
+                    [ngbTypeahead]="searchProducer"
+                    [inputFormatter]="formatter"
+                    [resultTemplate]="rt_producer"
+                    [(ngModel)]="producer"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="onProducerChange($event)">
+                 @if( hasDisplayableError('producerId') ){
+                        <div class="error-feedback" >
+                            @if(form.controls['producerId'].hasError('required')){
+                                <div>
+                                    Producer is required
+                                </div>
+                            }
+                            @if(form.controls['producerId'].hasError('categoryRequired')){
+                                <div>
+                                    Please select category first
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+
             </div>
             <div class="mb-3">
                 <label for="price">Price</label>

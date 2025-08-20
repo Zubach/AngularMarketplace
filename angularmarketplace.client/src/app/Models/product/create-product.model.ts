@@ -4,4 +4,5 @@ export interface CreateProduct {
     price:string;
     categoryMask:string;
     imgs?:FileList;
+    producerId:number;
 }

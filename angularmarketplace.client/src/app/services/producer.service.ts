@@ -8,13 +8,16 @@ import { CreateProducer } from '../Models/producer/create-producer.model';
   providedIn: 'root'
 })
 export class ProducerService {
-  baseUrl:string = environment.apiUrl + '/api/producer';
+  baseUrl:string = environment.apiUrl + '/api/producers/';
   constructor(private http:HttpClient) { }
 
   getProducers(){
-    return this.http.get<Producer[]>(this.baseUrl + '/producers');
+    return this.http.get<Producer[]>(this.baseUrl);
   }
   createProducer(model:CreateProducer){
-    return this.http.post(this.baseUrl + '/producers',model)
+    return this.http.post(this.baseUrl ,model)
+  }
+  getCategoryProducersById(categoryId:number){
+    return this.http.get<Producer[]>(this.baseUrl + 'category/' + categoryId);
   }
 }

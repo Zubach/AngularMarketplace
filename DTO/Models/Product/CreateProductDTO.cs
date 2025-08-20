@@ -1,8 +1,7 @@
-﻿using AngularMarketplace.Server.Binders;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 
-namespace AngularMarketplace.Server.DTOs.Product
+namespace DTO.Models.Product
 {
     public class CreateProductDTO
     {

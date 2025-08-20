@@ -29,7 +29,7 @@ namespace AngularMarketplace.Server.Controllers
             this._env = environment;
         }
 
-        [HttpGet("get_products")]
+        [HttpGet]
         public JsonResult GetProducts()
         {
             try
@@ -46,7 +46,7 @@ namespace AngularMarketplace.Server.Controllers
             }
             
         }
-        [HttpGet("get_product_details/{id}")]
+        [HttpGet("{id}")]
         public JsonResult GetProduct(int id)
         {
             try
@@ -66,7 +66,7 @@ namespace AngularMarketplace.Server.Controllers
             }
         }
 
-        [HttpGet("get_products_by_category/{id}")]
+        [HttpGet("category/{id}")]
         public JsonResult GetProductsByCategory(int id)
         {
             try
@@ -95,7 +95,7 @@ namespace AngularMarketplace.Server.Controllers
             }
         }
 
-        [HttpGet("get_seller_products")]
+        [HttpGet("seller")]
         [Authorize(Roles = "Seller")]
         public async Task<IResult> GetSellerProducts()
         {
@@ -126,7 +126,7 @@ namespace AngularMarketplace.Server.Controllers
         
 
         [Consumes("multipart/form-data")]
-        [HttpPost("create_product")]
+        [HttpPost]
         [Authorize(Roles ="Seller")]
         public async Task<IResult> CreateProduct([FromForm]CreateProductDTO dto)
         {
@@ -151,21 +151,22 @@ namespace AngularMarketplace.Server.Controllers
                         Mask = await GenerateMaskAsync(seed),
                         Url_Title = "",
                         Price = dto.Price,
-                        CategoryID = _context.ProductCategories.FirstOrDefaultAsync(x => x.Mask == dto.CategoryMask).Id,
+                        Category =  await _context.ProductCategories.FirstOrDefaultAsync(x => x.Mask == dto.CategoryMask),
+                        Producer = await _context.Producers.FirstOrDefaultAsync(x => x.ID == dto.ProducerId),
                         SellerID = user.FindFirst(x => x.Type == "UserID")?.Value,
                         AvailabilityStatus = ProductAvailabilityStatus.Pending,
-                        VisibilityStatus = ProductVisibilityStatus.Processing
+                        VisibilityStatus = ProductVisibilityStatus.Processing,
+                        Images = new List<ProductImage>()
                     };
                     if (dto.Imgs != null && dto.Imgs.Count <= 6)
                     {
-                        var props = typeof(Product).GetProperties();
-                        for (int i = 0; i < dto.Imgs.Count;i++)
+                        for (int i = 0; i < dto.Imgs.Count; i++)
                         {
                             var file = dto.Imgs[i];
-                            string fileName = product.Mask + $"_{i+1}.{_uploadImageService.GetFileExtension(file.FileName)}";
+                            string fileName = product.Mask + $"_{i + 1}.{_uploadImageService.GetFileExtension(file.FileName)}";
                             await _uploadImageService.UploadImageAsync(file, Path.Combine(_env.ContentRootPath, "Images", "Products"), fileName);
-                            product.Images.Add(new ProductImage { Product = product, Filename = fileName });
-                            
+                            product.Images.Add(new ProductImage { Filename = fileName });
+
                         }
                     }
                     _context.Products.Add(product);
@@ -177,10 +178,10 @@ namespace AngularMarketplace.Server.Controllers
                     return Results.StatusCode(500);
                 }
             }
-            return Results.BadRequest("Unknown user");
+            return Results.StatusCode(401);
         }
 
-        [HttpGet("get_moderation_products")]
+        [HttpGet("moderation")]
         [Authorize(Roles = "Admin,Moderator")]
         public async Task<IResult> GetModerationProducts()
         {
